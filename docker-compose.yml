@@ -1,8 +1,14 @@
 version: "3.8"
 services:
   log_viewer:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"  # Maps container's port 5000 to host's port 5000
     volumes:
-      - ./logs:/app/logs  # Mounts the local logs directory to the container
+      - .:/app          # Mounts the entire project directory to the container's /app directory
+      - /app/__pycache__ # Prevents __pycache__ files from affecting local files
+      - ./logs:/app/logs # Mounts the local logs directory to the container
+    environment:
+      FLASK_ENV: development # Ensures Flask is in development mode

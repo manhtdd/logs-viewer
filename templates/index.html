@@ -14,8 +14,7 @@
 <body>
     <div class="container">
         <h1>Viewing: {{ current_file }}</h1>
-        <pre>{{ content }}</pre>
-
+        
         <div class="nav">
             {% if current_index > 0 %}
             <a href="/?index={{ prev_index }}">← Previous</a>
@@ -31,6 +30,8 @@
             <span>Next →</span>
             {% endif %}
         </div>
+
+        <pre>{{ content }}</pre>
     </div>
 </body>
 </html>
