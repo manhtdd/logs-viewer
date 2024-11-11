@@ -7,31 +7,91 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         .container { max-width: 800px; margin: auto; }
-        pre { background-color: #f4f4f4; padding: 10px; overflow: auto; border: 1px solid #ddd; }
-        .nav { margin-top: 20px; display: flex; justify-content: space-between; }
+        
+        /* Styling for the navigation bar */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px; /* Move nav above content */
+        }
+
+        /* Button styling for Previous/Next links */
+        .nav a, .nav span {
+            font-size: 14px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect */
+        .nav a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Disabled state for Previous/Next when no more files */
+        .nav span {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        /* Content styling */
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            overflow: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Viewing: {{ current_file }}</h1>
-        
+
         <div class="nav">
             {% if current_index > 0 %}
-            <a href="/?index={{ prev_index }}">← Previous</a>
+            <a href="/?index={{ prev_index }}" id="prev-link">Previous</a>
             {% else %}
-            <span>← Previous</span>
+            <span>Previous</span>
             {% endif %}
 
             <span>{{ current_index + 1 }} of {{ total_files }}</span>
 
             {% if current_index < total_files - 1 %}
-            <a href="/?index={{ next_index }}">Next →</a>
+            <a href="/?index={{ next_index }}" id="next-link">Next</a>
             {% else %}
-            <span>Next →</span>
+            <span>Next</span>
             {% endif %}
         </div>
 
         <pre>{{ content }}</pre>
     </div>
+
+    <!-- JavaScript for Keyboard Navigation -->
+    <script>
+        document.addEventListener("keydown", function(event) {
+            // Check if the left arrow (keyCode 37) or right arrow (keyCode 39) is pressed
+            if (event.key === "ArrowLeft") {
+                // Trigger the "Previous" link if it exists
+                const prevLink = document.getElementById("prev-link");
+                if (prevLink) {
+                    window.location.href = prevLink.href;
+                }
+            } else if (event.key === "ArrowRight") {
+                // Trigger the "Next" link if it exists
+                const nextLink = document.getElementById("next-link");
+                if (nextLink) {
+                    window.location.href = nextLink.href;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
