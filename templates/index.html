@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log File Viewer</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        pre { background-color: #f4f4f4; padding: 10px; overflow: auto; border: 1px solid #ddd; }
+        .nav { margin-top: 20px; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Viewing: {{ current_file }}</h1>
+        <pre>{{ content }}</pre>
+
+        <div class="nav">
+            {% if current_index > 0 %}
+            <a href="/?index={{ prev_index }}">← Previous</a>
+            {% else %}
+            <span>← Previous</span>
+            {% endif %}
+
+            <span>{{ current_index + 1 }} of {{ total_files }}</span>
+
+            {% if current_index < total_files - 1 %}
+            <a href="/?index={{ next_index }}">Next →</a>
+            {% else %}
+            <span>Next →</span>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
