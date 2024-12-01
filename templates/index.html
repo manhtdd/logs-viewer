@@ -49,29 +49,81 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
+        /* Styling for the "no results" message */
+        .no-results {
+            color: #d9534f;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* Styling for the search bar */
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .search-bar input {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        .search-bar button {
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Viewing: {{ current_file }}</h1>
-
-        <div class="nav">
-            {% if current_index > 0 %}
-            <a href="/?index={{ prev_index }}" id="prev-link">Previous</a>
-            {% else %}
-            <span>Previous</span>
-            {% endif %}
-
-            <span>{{ current_index + 1 }} of {{ total_files }}</span>
-
-            {% if current_index < total_files - 1 %}
-            <a href="/?index={{ next_index }}" id="next-link">Next</a>
-            {% else %}
-            <span>Next</span>
-            {% endif %}
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <form action="/" method="get">
+                <input type="text" name="search" placeholder="Enter number to search" value="{{ request.args.get('search', '') }}">
+                <button type="submit">Search</button>
+            </form>
         </div>
 
-        <pre>{{ content }}</pre>
+        {% if total_files > 0 %}
+            <h1>Viewing: {{ current_file }}</h1>
+
+            <div class="nav">
+                {% if current_index > 0 %}
+                    <a href="/?index={{ prev_index }}" id="prev-link">Previous</a>
+                {% else %}
+                    <span>Previous</span>
+                {% endif %}
+
+                <span>{{ current_index + 1 }} of {{ total_files }}</span>
+
+                {% if current_index < total_files - 1 %}
+                    <a href="/?index={{ next_index }}" id="next-link">Next</a>
+                {% else %}
+                    <span>Next</span>
+                {% endif %}
+            </div>
+
+            <pre>{{ content }}</pre>
+        {% else %}
+            <div class="no-results">
+                No files found matching the search criteria.
+            </div>
+        {% endif %}
     </div>
 
     <!-- JavaScript for Keyboard Navigation -->
